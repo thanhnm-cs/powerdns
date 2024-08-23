@@ -3,7 +3,8 @@ version: '2.1'
 services:
 
   admin:
-    image: chrisss404/powerdns:latest-admin
+    build: admin
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-admin:1
     depends_on:
       - admin-db
       - authoritative
@@ -27,7 +28,8 @@ services:
       - admin-db
 
   authoritative:
-    image: chrisss404/powerdns:latest-authoritative
+    build: authoritative
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-authoritative:1
     depends_on:
       - authoritative-db
     environment:
@@ -53,7 +55,8 @@ services:
       - authoritative-db
 
   dnsdist:
-    image: chrisss404/powerdns:latest-dnsdist
+    build: dnsdist
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-dnsdist:1
     environment:
       - DNSDIST_API_KEY=api-secret-dnsdist
       - DNSDIST_PLAIN=yes
@@ -68,13 +71,14 @@ services:
       - "8083:8083/tcp"
 
   recursor:
-    image: chrisss404/powerdns:latest-recursor
+    build: recursor
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-recursor:1
     environment:
       - RECURSOR_API_KEY=api-secret-recursor
       - RECURSOR_DNSSEC=validate
-      - RECURSOR_FORWARD_ZONES="sys=172.31.118.118"
+      # - RECURSOR_FORWARD_ZONES="forward-zones=example.org=172.31.118.118"
       - RECURSOR_QUIET=false
-      - RECURSOR_TRUST_ANCHORS="sys=54970 13 1 27efe1c1a790c3cbb43b947d6d6dfac62507097e"
+      # - RECURSOR_TRUST_ANCHORS="sys=54970 13 1 27efe1c1a790c3cbb43b947d6d6dfac62507097e"
       - RECURSOR_WEBSERVER=true
       - RECURSOR_WEBSERVER_PASSWORD=web-secret-recursor
     sysctls:

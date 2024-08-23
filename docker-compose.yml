@@ -4,6 +4,7 @@ services:
 
   admin:
     build: admin
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-admin:1
     depends_on:
       - admin-db
     ports:
@@ -19,6 +20,7 @@ services:
 
   authoritative:
     build: authoritative
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-authoritative:1
     depends_on:
       - authoritative-db
     ports:
@@ -35,6 +37,7 @@ services:
 
   dnsdist:
     build: dnsdist
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-dnsdist:1
     environment:
       - DNSDIST_PLAIN=yes
       - DNSDIST_QUIET=no
@@ -44,6 +47,7 @@ services:
 
   recursor:
     build: recursor
+    image: asia-southeast1-docker.pkg.dev/ghn-tech/ghn-tech/pdns-recursor:1
     environment:
       - RECURSOR_QUIET=false
     sysctls:
